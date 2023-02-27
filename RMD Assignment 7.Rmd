@@ -1,0 +1,112 @@
+---
+title: "assugnment7"
+output: html_document
+date: "2023-02-27"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1\. Download any type of data (from the web or use datasets package) or create your own set.
+
+```{r}
+# Choosing iris dataset
+data(iris)
+```
+
+2\. Your second step, determine if generic function as discussed in this module can be assigned to your data set, and if not, why? (Example, here is list of data set in R)
+
+data("mtcars") head (mtcars, 6) list(mtcars, 6)
+
+```{r}
+# Check the class of the iris dataset
+class(iris)
+data("iris")
+head(iris)
+```
+
+The output of the code above shows that the "iris" dataset is a data frame. As a result, we can apply generic functions that work with data frames to this dataset.
+
+3\. In the last step, explore if S3 and S4 can be assigned to your data set or the database "mtcars."
+
+S3 and S4 are different object-oriented systems in R. We can determine the OO system an object is associated with using the class() function. If the object has a class attribute, we can determine its class by calling the class() function on it.
+
+```{r}
+# Determine the OO system an object is associated with
+# using the class() function
+# create an object and assign class "my_class"
+my_object <- 10
+class(my_object) <- "my_class"
+c = class(my_object)
+
+```
+
+In the example above, I created an object called "my_object" and assigned it a class of "my_class" using the class() function. When I called class(my_object), the output was "my_class." This shows that we can assign classes to objects using the class() function and determine the class of an object using the class() function.
+
+1.  How do you tell what OO system (S3 vs. S4) an object is associated with?
+
+    Using the functions isS4, if true object is S4 else S3
+
+    ```{r}
+    isS4(c)
+    ```
+
+2.  How do you determine the base type (like integer or list) of an object?
+
+The base type of an object can be determined using the typeof() function.
+
+```{r}
+a = 10
+typeof(a)
+```
+
+1.  What is a generic function?
+
+    A generic function is one which may be applied to different types of inputs producing results depending on the type of input. Examples are typeof()
+
+2.  What are the main differences between S3 and S4? The S3 and S4 software in R are two generations implementing functional object-oriented programming. S3 is the original, simpler for initial programming but less general, less formal and less open to validation. The S4 formal methods and classes provide these features but require more programming.
+
+3.  S3 and S4 example
+
+```{r}
+#s3
+studentBio <- list(studentName = "Harry Potter", studentAge = 19, studentContact="London")
+class(studentBio) <- "StudentInfo"
+studentBio
+
+```
+
+```{r}
+contact <- function(object) {
+UseMethod("contact")
+}
+
+contact.StudentInfo <- function(object) {
+cat("Your contact is", object$studentContact, "\n")
+}
+contact(studentBio)
+
+```
+
+```{r}
+
+# S4
+setClass("employee", slots=list(name="character", id="numeric", contact="character"))
+obj <- new("employee",name="Steven", id=1002, contact="West Avenue")
+obj
+
+```
+
+```{r}
+setMethod("show",
+"employee",
+function(object) {
+cat("Name:",object@name, "\n")
+cat("Id:",object@id, "\n")
+cat("Contact:", object@contact, "\n")
+}
+)
+obj
+
+```
